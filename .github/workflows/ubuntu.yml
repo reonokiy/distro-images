@@ -50,9 +50,9 @@ jobs:
           files: ./docker-bake.hcl
           targets: ubuntu
           push: true
-          set: |
-            *.IMAGE_REGISTRY=${{ env.REGISTRY }}
-            *.IMAGE_NAMESPACE=${{ env.IMAGE_NAMESPACE }}
-            *.IMAGE=${{ matrix.image }}
-            *.NAME=${{ matrix.name }}
-            *.TAG=${{ matrix.tag }}
+        env:
+          IMAGE_REGISTRY: ${{ env.REGISTRY }}
+          IMAGE_NAMESPACE: ${{ env.IMAGE_NAMESPACE }}
+          IMAGE: ${{ matrix.image }}
+          NAME: ${{ matrix.name }}
+          TAG: ${{ matrix.tag }}
