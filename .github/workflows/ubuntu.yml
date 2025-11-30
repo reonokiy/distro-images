@@ -51,8 +51,8 @@ jobs:
           targets: ubuntu
           push: true
           set: |
-            IMAGE_REGISTRY=${{ env.REGISTRY }}
-            IMAGE_NAMESPACE=${{ env.IMAGE_NAMESPACE }}
-            IMAGE=${{ matrix.image }}
-            NAME=${{ matrix.name }}
-            TAG=${{ matrix.tag }}
+            *.IMAGE_REGISTRY=${{ env.REGISTRY }}
+            *.IMAGE_NAMESPACE=${{ env.IMAGE_NAMESPACE }}
+            *.IMAGE=${{ matrix.image }}
+            *.NAME=${{ matrix.name }}
+            *.TAG=${{ matrix.tag }}
