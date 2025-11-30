@@ -1,0 +1,58 @@
+name: Build and Push Ubuntu Based Images
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAMESPACE: ${{ github.repository_owner }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: nvcr.io/nvidia/cuda:12.0.0-devel-ubuntu22.04
+            name: cuda
+            tag: "12.0.0-devel-ubuntu22.04"
+          - image: nvcr.io/nvidia/cuda:12.9.1-devel-ubuntu24.04
+            name: cuda
+            tag: "12.9.1-devel-ubuntu24.04"
+          - image: nvcr.io/nvidia/cuda:13.0.2-devel-ubuntu24.04
+            name: cuda
+            tag: "13.0.2-devel-ubuntu24.04"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/bake-action@v4
+        with:
+          files: ./docker-bake.hcl
+          targets: ubuntu
+          push: true
+          set: |
+            IMAGE_REGISTRY=${{ env.REGISTRY }}
+            IMAGE_NAMESPACE=${{ env.IMAGE_NAMESPACE }}
+            IMAGE=${{ matrix.image }}
+            NAME=${{ matrix.name }}
+            TAG=${{ matrix.tag }}
