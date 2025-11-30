@@ -26,8 +26,23 @@ group "default" {
   targets = ["ubuntu"]
 }
 
-target "ubuntu" {
-  context    = "./ubuntu"
+target "ubuntu22" {
+  context    = "./ubuntu22"
+  dockerfile = "Dockfile"
+
+  platforms = ["linux/amd64"]
+
+  args = {
+    IMAGE = IMAGE
+  }
+
+  tags = [
+    "${IMAGE_REGISTRY}/${IMAGE_NAMESPACE}/${NAME}:${TAG}",
+  ]
+}
+  
+target "ubuntu24" {
+  context    = "./ubuntu24"
   dockerfile = "Dockfile"
 
   platforms = ["linux/amd64"]
