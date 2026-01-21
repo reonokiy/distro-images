@@ -12,6 +12,14 @@ variable "IMAGE_NAMESPACE" {
   default = "username"
 }
 
+variable "SECONDARY_IMAGE_REGISTRY" {
+  default = "docker.io"
+}
+
+variable "SECONDARY_IMAGE_NAMESPACE" {
+  default = "username"
+}
+
 variable "NAME" {
   # Primary tag name
   default = "ubuntu"
@@ -38,6 +46,7 @@ target "ubuntu22" {
 
   tags = [
     "${IMAGE_REGISTRY}/${IMAGE_NAMESPACE}/${NAME}:${TAG}",
+    "${SECONDARY_IMAGE_REGISTRY}/${SECONDARY_IMAGE_NAMESPACE}/${NAME}:${TAG}",
   ]
 }
   
@@ -53,5 +62,6 @@ target "ubuntu24" {
 
   tags = [
     "${IMAGE_REGISTRY}/${IMAGE_NAMESPACE}/${NAME}:${TAG}",
+    "${SECONDARY_IMAGE_REGISTRY}/${SECONDARY_IMAGE_NAMESPACE}/${NAME}:${TAG}",
   ]
 }

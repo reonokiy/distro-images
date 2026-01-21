@@ -9,6 +9,8 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAMESPACE: ${{ github.repository_owner }}
+  DOCKERHUB_REGISTRY: docker.io
+  DOCKERHUB_NAMESPACE: reonokiy
 
 jobs:
   build-and-push:
@@ -47,6 +49,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKERHUB_REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build and push image
         uses: docker/bake-action@v5
         with:
@@ -56,6 +65,8 @@ jobs:
         env:
           IMAGE_REGISTRY: ${{ env.REGISTRY }}
           IMAGE_NAMESPACE: ${{ env.IMAGE_NAMESPACE }}
+          SECONDARY_IMAGE_REGISTRY: ${{ env.DOCKERHUB_REGISTRY }}
+          SECONDARY_IMAGE_NAMESPACE: ${{ env.DOCKERHUB_NAMESPACE }}
           IMAGE: ${{ matrix.image }}
           NAME: ${{ matrix.name }}
           TAG: ${{ matrix.tag }}
