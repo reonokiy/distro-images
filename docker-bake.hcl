@@ -28,7 +28,7 @@ group "default" {
 
 target "ubuntu22" {
   context    = "./ubuntu22"
-  dockerfile = "Dockfile"
+  dockerfile = "Dockerfile"
 
   platforms = ["linux/amd64"]
 
@@ -43,7 +43,7 @@ target "ubuntu22" {
   
 target "ubuntu24" {
   context    = "./ubuntu24"
-  dockerfile = "Dockfile"
+  dockerfile = "Dockerfile"
 
   platforms = ["linux/amd64"]
 
