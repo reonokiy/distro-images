@@ -3,10 +3,12 @@ ARG IMAGE
 FROM ${IMAGE}
 
 RUN apt-get update && apt-get install -y \
-    curl wget \
-    nano vim \
+    ca-certificates curl wget htop \
+    nano vim less \
     screen tmux \
-    git sudo zsh fish\
+    tree unzip zip rsync \
+    jq ripgrep fd-find \
+    git git-lfs sudo zsh fish \
     openssl ffmpeg build-essential \
     libnss3 libnspr4 libatk-bridge2.0-0 libxkbcommon0 libasound2t64 libatspi2.0-0 libgtk-3-0\
     && rm -rf /var/lib/apt/lists/*
