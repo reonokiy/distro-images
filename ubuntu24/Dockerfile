@@ -14,3 +14,10 @@ RUN apt-get update && apt-get install -y \
 COPY --from=ghcr.io/astral-sh/uv:0.9 /uv  /usr/local/bin/uv
 COPY --from=ghcr.io/astral-sh/uv:0.9 /uvx /usr/local/bin/uvx
 RUN chmod +x /usr/local/bin/uv /usr/local/bin/uvx
+
+# mise binary install
+ARG MISE_VERSION=v2026.1.5
+RUN curl -fsSL -L \
+    "https://github.com/jdx/mise/releases/download/${MISE_VERSION}/mise-${MISE_VERSION}-linux-x64" \
+    -o /usr/local/bin/mise \
+  && chmod +x /usr/local/bin/mise
