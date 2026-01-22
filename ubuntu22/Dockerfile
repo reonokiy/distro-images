@@ -3,7 +3,7 @@ ARG IMAGE
 FROM ${IMAGE}
 
 RUN apt-get update && apt-get install -y \
-    ca-certificates curl wget htop \
+    ca-certificates curl wget htop direnv \
     nano vim less \
     screen tmux \
     tree unzip zip rsync \
