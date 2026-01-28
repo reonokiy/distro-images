@@ -17,13 +17,14 @@ COPY --from=ghcr.io/astral-sh/uv:0.9 /uv  /usr/local/bin/uv
 COPY --from=ghcr.io/astral-sh/uv:0.9 /uvx /usr/local/bin/uvx
 RUN chmod +x /usr/local/bin/uv /usr/local/bin/uvx
 
-RUN wget https://s3.amazonaws.com/mountpoint-s3-release/1.22.0/x86_64/mount-s3-1.22.0-x86_64.deb -O mount-s3.deb \
-    && wget https://s3.amazonaws.com/mountpoint-s3-release/1.22.0/x86_64/mount-s3-1.22.0-x86_64.deb.asc -O mount-s3.deb.asc \
+ARG AWS_MOUNTPOINT_S3_VERSION=1.22.0
+RUN wget https://s3.amazonaws.com/mountpoint-s3-release/${AWS_MOUNTPOINT_S3_VERSION}/x86_64/mount-s3-${AWS_MOUNTPOINT_S3_VERSION}-x86_64.deb -O mount-s3.deb \
+    && wget https://s3.amazonaws.com/mountpoint-s3-release/${AWS_MOUNTPOINT_S3_VERSION}/x86_64/mount-s3-${AWS_MOUNTPOINT_S3_VERSION}-x86_64.deb.asc -O mount-s3.deb.asc \
     && wget https://s3.amazonaws.com/mountpoint-s3-release/public_key.asc -O public_key.asc \
     && gpg --import public_key.asc \
-    && gpg --verify mount-s3.deb.asc mount-s3-1.22.0-x86_64.deb \
+    && gpg --verify mount-s3.deb.asc mount-s3.deb \
     && apt-get install -y ./mount-s3.deb \
-    && rm mount-s3-1.22.0-x86_64.deb mount-s3.deb.asc public_key.asc
+    && rm mount-s3.deb mount-s3.deb.asc public_key.asc
 
 # mise binary install
 ARG MISE_VERSION=v2026.1.8
