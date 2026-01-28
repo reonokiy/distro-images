@@ -20,8 +20,9 @@ RUN chmod +x /usr/local/bin/uv /usr/local/bin/uvx
 ARG AWS_MOUNTPOINT_S3_VERSION=1.22.0
 RUN wget https://s3.amazonaws.com/mountpoint-s3-release/${AWS_MOUNTPOINT_S3_VERSION}/x86_64/mount-s3-${AWS_MOUNTPOINT_S3_VERSION}-x86_64.deb -O mount-s3.deb \
     && wget https://s3.amazonaws.com/mountpoint-s3-release/${AWS_MOUNTPOINT_S3_VERSION}/x86_64/mount-s3-${AWS_MOUNTPOINT_S3_VERSION}-x86_64.deb.asc -O mount-s3.deb.asc \
-    && wget https://s3.amazonaws.com/mountpoint-s3-release/public_key.asc -O public_key.asc \
+    && wget https://s3.amazonaws.com/mountpoint-s3-release/public_keys/KEYS -O public_key.asc \
     && gpg --import public_key.asc \
+    && gpg --fingerprint mountpoint-s3@amazon.com | grep -q "673F E406 1506 BB46 9A0E F857 BE39 7A52 B086 DA5A" \
     && gpg --verify mount-s3.deb.asc mount-s3.deb \
     && apt-get install -y ./mount-s3.deb \
     && rm mount-s3.deb mount-s3.deb.asc public_key.asc
