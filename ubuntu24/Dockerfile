@@ -22,7 +22,7 @@ RUN wget https://s3.amazonaws.com/mountpoint-s3-release/${AWS_MOUNTPOINT_S3_VERS
     && wget https://s3.amazonaws.com/mountpoint-s3-release/${AWS_MOUNTPOINT_S3_VERSION}/x86_64/mount-s3-${AWS_MOUNTPOINT_S3_VERSION}-x86_64.deb.asc -O mount-s3.deb.asc \
     && wget https://s3.amazonaws.com/mountpoint-s3-release/public_keys/KEYS -O public_key.asc \
     && gpg --import public_key.asc \
-    && gpg --fingerprint mountpoint-s3@amazon.com | grep -q "673F E406 1506 BB46 9A0E F857 BE39 7A52 B086 DA5A" \
+    && gpg --fingerprint mountpoint-s3@amazon.com | tr -d ' ' | grep -q "673FE4061506BB469A0EF857BE397A52B086DA5A" \
     && gpg --verify mount-s3.deb.asc mount-s3.deb \
     && apt-get install -y ./mount-s3.deb \
     && rm mount-s3.deb mount-s3.deb.asc public_key.asc
