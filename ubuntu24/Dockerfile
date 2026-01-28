@@ -3,7 +3,7 @@ ARG IMAGE
 FROM ${IMAGE}
 
 RUN apt-get update && apt-get install -y \
-    ca-certificates curl wget htop direnv \
+    ca-certificates curl wget htop direnv gnupg \
     nano vim less \
     screen tmux \
     tree unzip zip rsync \
@@ -17,8 +17,16 @@ COPY --from=ghcr.io/astral-sh/uv:0.9 /uv  /usr/local/bin/uv
 COPY --from=ghcr.io/astral-sh/uv:0.9 /uvx /usr/local/bin/uvx
 RUN chmod +x /usr/local/bin/uv /usr/local/bin/uvx
 
+RUN wget https://s3.amazonaws.com/mountpoint-s3-release/1.22.0/x86_64/mount-s3-1.22.0-x86_64.deb -o mount-s3.deb \
+    && wget https://s3.amazonaws.com/mountpoint-s3-release/1.22.0/x86_64/mount-s3-1.22.0-x86_64.deb.asc -o mount-s3.deb.asc \ 
+    && wget https://s3.amazonaws.com/mountpoint-s3-release/public_key.asc -O public_key.asc && \
+    && gpg --import public_key.asc && \
+    && gpg --verify mount-s3.deb.asc mount-s3-1.22.0-x86_64.deb \
+    && apt-get install -y ./mount-s3.deb \
+    && rm mount-s3-1.22.0-x86_64.deb mount-s3.deb.asc public_key.asc
+
 # mise binary install
-ARG MISE_VERSION=v2026.1.5
+ARG MISE_VERSION=v2026.1.8
 RUN curl -fsSL -L \
     "https://github.com/jdx/mise/releases/download/${MISE_VERSION}/mise-${MISE_VERSION}-linux-x64" \
     -o /usr/local/bin/mise \
