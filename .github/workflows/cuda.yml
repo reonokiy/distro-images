@@ -22,7 +22,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - image: nvcr.io/nvidia/cuda:12.0.0-devel-ubuntu22.04
+          - image: nvcr.io/nvidia/cuda:11.8.0-devel-ubuntu22.04
+            target: ubuntu22
+            name: cuda
+            tag: "11.8.0-devel-ubuntu22.04"
+          - image: nvcr.io/nvidia/cuda:11.8.0-devel-ubuntu22.04
             target: ubuntu22
             name: cuda
             tag: "12.0.0-devel-ubuntu22.04"
