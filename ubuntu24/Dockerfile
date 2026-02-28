@@ -18,6 +18,8 @@ COPY --from=ghcr.io/astral-sh/uv:0.9 /uv  /usr/local/bin/uv
 COPY --from=ghcr.io/astral-sh/uv:0.9 /uvx /usr/local/bin/uvx
 RUN chmod +x /usr/local/bin/uv /usr/local/bin/uvx
 
+COPY --from=ghcr.io/prefix-dev/pixi:0.64.0 /usr/local/bin/pixi /usr/local/bin/pixi
+
 ARG AWS_MOUNTPOINT_S3_VERSION=1.22.0
 RUN wget https://s3.amazonaws.com/mountpoint-s3-release/${AWS_MOUNTPOINT_S3_VERSION}/x86_64/mount-s3-${AWS_MOUNTPOINT_S3_VERSION}-x86_64.deb -O mount-s3.deb \
     && wget https://s3.amazonaws.com/mountpoint-s3-release/${AWS_MOUNTPOINT_S3_VERSION}/x86_64/mount-s3-${AWS_MOUNTPOINT_S3_VERSION}-x86_64.deb.asc -O mount-s3.deb.asc \
